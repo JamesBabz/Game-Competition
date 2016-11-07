@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=Movers
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Movers\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=speed
+comment1.target=void\ moveLeft(int)
+comment2.params=speed
+comment2.target=void\ moveRight(int)
+comment3.params=speed
+comment3.target=void\ moveDown(int)
+comment4.params=speed
+comment4.target=void\ moveUp(int)
+numComments=5
