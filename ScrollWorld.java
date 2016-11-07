@@ -30,7 +30,7 @@ public class ScrollWorld extends World
         super(400, 272, 1, false);
         getBackground().drawImage(bgi, baseX, baseY);
         addObject(player, getWidth()/2, 230);
-        // addObject(brick, 300, 150);
+        // addObject(brick, 300, 150); 
         update();
     }
 
