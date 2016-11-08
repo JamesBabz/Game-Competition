@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Player extends Actor
 {
-    
+
     String moveUp = "w";
     String moveLeft = "a";
     String moveRight = "d";
@@ -16,6 +16,10 @@ public class Player extends Actor
     int jumpHeight = 0;
     int speed = 1;
     List objects;
+   
+    private int MushroomsTaken = 0;
+    
+    public static boolean isAlive = true; 
    
     public void act()
     {
@@ -60,6 +64,7 @@ public class Player extends Actor
 
     public void moveToTheLeft()
     {
+
         for(int i = 0; i < objects.size(); i++)
         {
             getWorld().getObjects(Movers.class).get(i).moveRight(speed);
@@ -68,6 +73,7 @@ public class Player extends Actor
 
     public void moveUpwards()
     {
+
         jumpHeight++;
         for(int i = 0; i < objects.size(); i++)
         {
@@ -83,5 +89,25 @@ public class Player extends Actor
             getWorld().getObjects(Movers.class).get(i).moveUp(speed);
         }
     }
-
+    
+     public void takeMushrooms()
+    {
+        Actor Mushrooms = getOneObjectAtOffset(0, 0, Mushrooms.class);
+        if (Mushrooms != null) 
+       {
+            getWorld().removeObject(Mushrooms);
+            setImage("Mariobigpt1.png");
+            Greenfoot.playSound("growing.wav");
+        
+       }  
+    }
+    
+    public void die()
+    {
+        isAlive = false; 
+        getWorld().removeObject(this);
+        Greenfoot.playSound("mariodies.wav");
+    }
+    
+    
 }
