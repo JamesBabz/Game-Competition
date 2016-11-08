@@ -52,9 +52,6 @@ public class Player extends Actor
     
      public void moveToTheRight()
     {
-        // baseX = (baseX + bgiWidth - 1) % bgiWidth;
-        // getBackground().drawImage(bgi, baseX - bgiWidth, baseY);
-        // leftEdge++;
         for(int i = 0; i < objects.size(); i++)
         {
             getWorld().getObjects(Movers.class).get(i).moveLeft(speed);
@@ -63,9 +60,6 @@ public class Player extends Actor
 
     public void moveToTheLeft()
     {
-        // baseX = (baseX + bgiWidth + 1) % bgiWidth;
-        // getBackground().drawImage(bgi, baseX - bgiWidth, baseY);
-        // leftEdge--;
         for(int i = 0; i < objects.size(); i++)
         {
             getWorld().getObjects(Movers.class).get(i).moveRight(speed);
@@ -74,10 +68,7 @@ public class Player extends Actor
 
     public void moveUpwards()
     {
-
         jumpHeight++;
-        // baseY = (baseY + bgiHeight + 1) % bgiHeight;
-        // getBackground().drawImage(bgi, baseX - bgiWidth, baseY);
         for(int i = 0; i < objects.size(); i++)
         {
             getWorld().getObjects(Movers.class).get(i).moveDown(speed);
@@ -87,8 +78,6 @@ public class Player extends Actor
     public void moveDownwards()
     {
         jumpHeight--;
-        // baseY = (baseY + bgiHeight - 1) % bgiHeight;
-        // getBackground().drawImage(bgi, baseX - bgiWidth, baseY);
         for(int i = 0; i < objects.size(); i++)
         {
             getWorld().getObjects(Movers.class).get(i).moveUp(speed);
