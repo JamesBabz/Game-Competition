@@ -1,23 +1,21 @@
 import greenfoot.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Color;
 
 public class MarioWorld extends World
 {
 
     //The keys to use to control
-    String moveUp = "w";
-    String moveLeft = "a";
-    String moveRight = "d";
+    final String moveUp = "w";
+    final String moveLeft = "a";
+    final String moveRight = "d";
 
     int level = 1;
     int levelLength = 0;
     int mapWidth;
     int mapHeight;
     int gridSize;
-
-    GreenfootImage bgi = new GreenfootImage("images/blueBG.jpg"); 
-
     Player player = new Player();
 
     final int groundHeight = 2;
@@ -25,50 +23,37 @@ public class MarioWorld extends World
     final int placeFromBottom = levelHeight-groundHeight;
     final int finishHeight = 11;
     List<Integer> groundHoles = new ArrayList<Integer>();
-    // List<Integer> brickX = new ArrayList<Integer>();
-    // List<Integer> brickY = new ArrayList<Integer>();
+    String groundImage;
+    String blockImage;
     int[] blocksX;
     int[] blocksY;
+
+    String breakableBlocksImage;
+    int[] breakableBlocksX;
+    int[] breakableBlocksY;
+
+    String QBlocksImage;
+    int[] QBlocksX;
+    int[] QBlocksY;
+
+    String pipeImage;
     int[] pipeTopX;
     int[] pipeTopY;
+
     int finishLine;
     int castleX;
 
-    String bgImage1;
-    int[] bgImage1X;
-    int[] bgImage1Y;
+    String bgImage1; String bgImage2; String bgImage3;  
+    int[] bgImage1X; int[] bgImage2X; int[] bgImage3X;
+    int[] bgImage1Y; int[] bgImage2Y; int[] bgImage3Y;
 
-    String bgImage2;
-    int[] bgImage2X;
-    int[] bgImage2Y;
+    String bgImage4; String bgImage5; String bgImage6;
+    int[] bgImage4X; int[] bgImage5X; int[] bgImage6X;
+    int[] bgImage4Y; int[] bgImage5Y; int[] bgImage6Y;
 
-    String bgImage3;
-    int[] bgImage3X;
-    int[] bgImage3Y;
-
-    String bgImage4;
-    int[] bgImage4X;
-    int[] bgImage4Y;
-
-    String bgImage5;
-    int[] bgImage5X;
-    int[] bgImage5Y;
-
-    String bgImage6;
-    int[] bgImage6X;
-    int[] bgImage6Y;
-
-    String bgImage7;
-    int[] bgImage7X;
-    int[] bgImage7Y;
-
-    String bgImage8;
-    int[] bgImage8X;
-    int[] bgImage8Y;
-
-    String bgImage9;
-    int[] bgImage9X;
-    int[] bgImage9Y;
+    String bgImage7; String bgImage8; String bgImage9;
+    int[] bgImage7X; int[] bgImage8X; int[] bgImage9X;
+    int[] bgImage7Y; int[] bgImage8Y; int[] bgImage9Y;
 
     public MarioWorld()
     {    
@@ -83,7 +68,7 @@ public class MarioWorld extends World
         Greenfoot.setSpeed(45);
         initLevelVars(level);
         createLevel();
-        setPaintOrder(Player.class, Block.class, GroundBlock.class);
+        setPaintOrder(Player.class, SolidBlock.class);
     }
 
     public void initLevelVars(int level)
@@ -91,7 +76,11 @@ public class MarioWorld extends World
         if(level == 1)
         {
             levelLength = 211;
+
+            groundImage = "groundblock.png";
             setHoles(69, 70, 86, 87, 88, 153, 154);
+
+            blockImage = "block.png";
             blocksX = new int []{ // Every line is for a new set of stairs
                 137, 137, 136, 137, 136, 135, 137, 136, 135, 134, 
                 140, 140, 141, 140, 141, 142, 140, 141, 142, 143,
@@ -109,6 +98,29 @@ public class MarioWorld extends World
                 1
 
             };
+
+            breakableBlocksImage = "brick.png";
+
+            breakableBlocksX = new int []{
+                20, 22, 24, 77, 79, 80, 81, 82, 83, 84, 85, 86, 87, 91, 92, 93, 94, 100, 118, 121, 122, 123, 128, 129, 130, 131, 168, 169, 171
+            };
+
+            breakableBlocksY = new int []{
+                4, 4, 4, 4, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 8, 8, 8, 8, 4, 4, 8, 4, 4, 4
+            };
+
+            QBlocksImage = "qblock.png";
+            QBlocksX = new int []{
+                16, 21, 22, 23, 78, 94, 106, 109, 109, 112, 129, 130, 170
+            };
+
+            QBlocksY = new int []{
+                4, 4, 8, 4, 4, 8, 4, 8, 4, 4, 8, 8, 4
+            };
+
+            
+            pipeImage = "pipe_top.png";
+
             pipeTopX = new int[]{
                 28, 38, 46, 57, 163, 179
             };
@@ -119,7 +131,6 @@ public class MarioWorld extends World
             finishLine = 198;
             castleX = 204;
 
-            
             //The single clouds
             bgImage1 = "images/cloud.png";
 
@@ -213,8 +224,11 @@ public class MarioWorld extends World
 
     public void createLevel()
     {
-        getBackground().drawImage(bgi, 0, 0);
-        addObject(player, getWidth()/2, 10);
+        GreenfootImage background = new GreenfootImage(getWidth(), getHeight());
+        background.setColor(Color.CYAN);
+        background.fillRect(0, 0, getWidth(), getHeight());
+        setBackground(background);
+        addObject(player, getWidth()/2, placeFromBottom-1);
         createGround();
         createBlocks();
         createPipes();
@@ -233,7 +247,9 @@ public class MarioWorld extends World
                 {
                     continue;
                 }
-                addObject(new GroundBlock(), l, levelHeight-h);
+                SolidBlock groundBlock = new SolidBlock();
+                groundBlock.setImage(groundImage);
+                addObject(groundBlock, l, levelHeight-h);
             }
         }
     }
@@ -248,7 +264,21 @@ public class MarioWorld extends World
     public void createBlocks()
     {
         for (int i = 0; i < blocksX.length; i++) {
-            addObject(new Block(), blocksX[i], placeFromBottom-blocksY[i]);
+            SolidBlock block = new SolidBlock();
+            block.setImage(blockImage);
+            addObject(block, blocksX[i], placeFromBottom-blocksY[i]);
+        }
+
+        for (int i = 0; i < breakableBlocksX.length; i++) {
+            BreakableBlock breakableBlock = new BreakableBlock();
+            breakableBlock.setImage(breakableBlocksImage);
+            addObject(breakableBlock, breakableBlocksX[i], placeFromBottom-breakableBlocksY[i]);
+        }
+
+        for (int i = 0; i < QBlocksX.length; i++) {
+            QBlock QBlock = new QBlock();
+            QBlock.setImage(QBlocksImage);
+            addObject(QBlock, QBlocksX[i], placeFromBottom-QBlocksY[i]);
         }
     }
 
@@ -256,7 +286,7 @@ public class MarioWorld extends World
     {
         for (int i = 0; i < pipeTopX.length; i++) {
             Pipe pipeTop = new Pipe();
-            pipeTop.setImage("images/pipe_top.png");
+            pipeTop.setImage(pipeImage);
             addObject(pipeTop, pipeTopX[i], placeFromBottom-pipeTopY[i]);
             for(int k = pipeTopY[i]-1; k > 0; k--)
             {
@@ -279,7 +309,6 @@ public class MarioWorld extends World
         }
     }
 
-    
     public void createBackground()
     {
         if (bgImage1X != null)
