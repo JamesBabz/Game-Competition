@@ -15,6 +15,10 @@ public class Player extends Actor
     int maxJumpHeight = 50;
     int jumpHeight = 0;
     int speed = 1;
+    int lastX;
+    int lastY;
+    boolean rightWall = false;
+    boolean leftWall = false;
     List objects;
     String lastMove="";
 
@@ -26,25 +30,28 @@ public class Player extends Actor
     public void act()
     {
         objects = getWorld().getObjects(Movers.class);
+        fall();
+        resetWallCheck();
+        // checkCollision();        
+        checkWall();
         movement();
-        checkCollision();
         takeConsumable();
     }
 
     public void movement()
     {
-        if(Greenfoot.isKeyDown(moveRight))
+        if(Greenfoot.isKeyDown(moveRight) && !rightWall)
         {   
             moveToTheRight();
         }
-        else if(Greenfoot.isKeyDown(moveLeft))
+        else if(Greenfoot.isKeyDown(moveLeft) && !leftWall)
         {
             moveToTheLeft();
         }
 
         if(Greenfoot.isKeyDown(moveUp) && jumpHeight < maxJumpHeight)
         {
-                moveUpwards();
+            moveUpwards();
         }
 
         if(Greenfoot.isKeyDown("s")) // Testing
@@ -75,13 +82,13 @@ public class Player extends Actor
 
     public void moveUpwards()
     {
-        
-            jumpHeight++;
-            for(int i = 0; i < objects.size(); i++)
-            {
-                getWorld().getObjects(Movers.class).get(i).moveDown(speed);
-                lastMove="up";
-            }
+
+        jumpHeight++;
+        for(int i = 0; i < objects.size(); i++)
+        {
+            getWorld().getObjects(Movers.class).get(i).moveDown(speed);
+            lastMove="up";
+        }
     }
 
     public void moveDownwards()
@@ -103,12 +110,11 @@ public class Player extends Actor
         }
     }
 
-    public void checkCollision()
+    public void fall()
     {
-        if(getOneIntersectingObject(SolidBlock.class)!=null)
-        {
-            checkWall();
-        }
+        // if(getOneIntersectingObject(SolidBlock.class)!=null)
+        // {
+        // }
         if(! isTouchingGround() && ! Greenfoot.isKeyDown(moveUp))
         {
             moveDownwards();
@@ -124,19 +130,25 @@ public class Player extends Actor
         int spriteWidth = getImage().getWidth();
         int xDistance = (int)((spriteWidth/2))/16;
 
-        Actor wall = getOneObjectAtOffset(xDistance, 0, SolidBlock.class);
-
-        if(wall != null)
+        Actor rightWall = getOneObjectAtOffset(1, 0, SolidBlock.class);
+        Actor leftWall = getOneObjectAtOffset(-1, 0, SolidBlock.class);
+        if(rightWall != null)
         {
-            if(lastMove.equals("right"))
-                moveToTheLeft();
-            else if(lastMove.equals("left"))
-                moveToTheRight();
-            else if(lastMove.equals("up"))
-                moveDownwards();
-            else if(lastMove.equals("down"))
-                moveUpwards();
+            this.rightWall = true;
         }
+        if(leftWall != null)
+        {
+            this.leftWall = true;
+        }
+        //Actor wall = getOneIntersectingObject(SolidBlock.class);
+        // if(lastMove.equals("right"))
+            // moveToTheLeft();
+        // if(lastMove.equals("left"))
+            // moveToTheRight();
+        // if(lastMove.equals("up"))
+            // moveDownwards();
+        // if(lastMove.equals("down"))
+            // moveUpwards();
     }
 
     public void stopByRightWall ()
@@ -178,6 +190,12 @@ public class Player extends Actor
         else{
             return false;
         }
+    }
+
+    private void resetWallCheck()
+    {
+        leftWall= false;
+        rightWall = false;
     }
 
     public void die()
