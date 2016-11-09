@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Mushrooms extends Movers
+public class Mushrooms extends Consumables 
 {
     /**
      * Act - do whatever the Mushrooms wants to do. This method is called whenever
@@ -16,4 +16,10 @@ public class Mushrooms extends Movers
     {
         // Add your action code here.
     }    
+    public void take()
+    {
+        setImage("Mariobigpt1.png"); 
+        getWorld().removeObject(this);
+        Greenfoot.playSound("growing.wav");
+    }
 }

@@ -26,8 +26,7 @@ public class Player extends Actor
     {
         objects = getWorld().getObjects(Movers.class);
         movement();
-        takeMushrooms();
-        takeCoins();
+        takeConsumable();
     }
     
     public void movement()
@@ -92,28 +91,14 @@ public class Player extends Actor
         }
     }
     
-     public void takeMushrooms()
+     public void takeConsumable()
     {
-        Actor Mushrooms = getOneObjectAtOffset(0, 0, Mushrooms.class);
-        if (Mushrooms != null) 
+        Actor Consumable = getOneObjectAtOffset(0,0, Actor.class);
+        if (Consumable != null) 
        {
-            getWorld().removeObject(Mushrooms);
-            setImage("Mariobigpt1.png");
-            Greenfoot.playSound("growing.wav");
-        
+           ((Consumables) Consumable).take();
        }  
     }
-    
-      public void takeCoins()
-   {
-       Actor Coins = getOneObjectAtOffset(0,0, Coins.class);
-      if (Coins != null)
-      {
-        getWorld().removeObject(Coins);
-        Greenfoot.playSound("coin.wav");
-        
-      }
-   }
     
     public void die()
    {

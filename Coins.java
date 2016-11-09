@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Coins extends Movers
+public class Coins extends Consumables
 {
     /**
      * Act - do whatever the coins wants to do. This method is called whenever
@@ -21,4 +21,9 @@ public class Coins extends Movers
             return;
         }
     }    
+    public void take()
+    {
+        getWorld().removeObject(this);
+        Greenfoot.playSound("coin.wav");
+    }
 }
