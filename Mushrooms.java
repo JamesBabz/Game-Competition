@@ -18,7 +18,8 @@ public class Mushrooms extends Consumables
     }    
     public void take()
     {
-        setImage("Mariobigpt1.png"); 
+        Actor player = getOneObjectAtOffset(0,0, Player.class);
+        player.setImage("Mariobigpt1.png"); 
         getWorld().removeObject(this);
         Greenfoot.playSound("growing.wav");
     }
