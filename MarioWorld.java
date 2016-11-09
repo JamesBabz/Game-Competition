@@ -272,7 +272,7 @@ public class MarioWorld extends World
         for (int i = 0; i < breakableBlocksX.length; i++) {
             BreakableBlock breakableBlock = new BreakableBlock();
             breakableBlock.setImage(breakableBlocksImage);
-            addObject(breakableBlock, breakableBlocksX[i], placeFromBottom-breakableBlocksY[i]);
+            addObject(breakableBlock, breakableBlocksX[i], placeFromBottom-breakableBlocksY[i]  );
         }
 
         for (int i = 0; i < QBlocksX.length; i++) {
