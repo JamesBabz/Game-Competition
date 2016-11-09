@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Coins extends Actor
+public class Coins extends Movers
 {
     /**
      * Act - do whatever the coins wants to do. This method is called whenever
@@ -14,6 +14,11 @@ public class Coins extends Actor
      */
     public void act() 
     {
-        // Add your action code here.
+            if (getOneIntersectingObject(Player.class) != null)
+        {
+            getWorld().removeObject(this);
+            Score.scoreLong += 10;
+            return;
+        }
     }    
 }

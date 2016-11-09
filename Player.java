@@ -18,6 +18,7 @@ public class Player extends Actor
     List objects;
    
     private int MushroomsTaken = 0;
+    private int CoinsTaken = 0;
     
     public static boolean isAlive = true; 
    
@@ -25,6 +26,8 @@ public class Player extends Actor
     {
         objects = getWorld().getObjects(Movers.class);
         movement();
+        takeMushrooms();
+        takeCoins();
     }
     
     public void movement()
@@ -73,7 +76,6 @@ public class Player extends Actor
 
     public void moveUpwards()
     {
-
         jumpHeight++;
         for(int i = 0; i < objects.size(); i++)
         {
@@ -102,12 +104,23 @@ public class Player extends Actor
        }  
     }
     
+      public void takeCoins()
+   {
+       Actor Coins = getOneObjectAtOffset(0,0, Coins.class);
+      if (Coins != null)
+      {
+        getWorld().removeObject(Coins);
+        Greenfoot.playSound("coin.wav");
+        
+      }
+   }
+    
     public void die()
-    {
+   {
         isAlive = false; 
         getWorld().removeObject(this);
         Greenfoot.playSound("mariodies.wav");
-    }
+   }
     
     
 }
